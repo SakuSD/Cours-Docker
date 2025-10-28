@@ -13,10 +13,21 @@ services:
       MONGO_INITDB_DATABASE: blog_mern
     volumes:
       - mongo-data:/data/db
-      - mongo--config:/data/configdb
+      - mongo-config:/data/configdb
+
+  app:
+    build: .
+    container_name: express-app
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/usr/src/app
 
 volumes:
   mongo-data:
-    driver: local
-  mongo--config:
-    driver: local
+  mongo-config:

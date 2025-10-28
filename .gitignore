@@ -1,2 +1,8 @@
-#Dépendance node.js
+# Fichiers et dossiers à ignorer
+.env
+*.log
 node_modules/
+mongo-data/
+mongo--config/
+*.tmp
+.DS_Store
