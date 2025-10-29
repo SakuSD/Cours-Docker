@@ -47,3 +47,20 @@ const articleSchema = new mongoose.Schema({
 const Article = mongoose.model('Article', articleSchema);
 
 module.exports = Article;
+
+articleSchema.methods.incrementerVues = function() {
+  this.vue += 1;
+  return this.save();
+};
+
+articleSchema.statics.trouverParAuteur = function(auteur) {
+  return this.find({ auteur: auteur });
+}
+
+articleSchema.virtual('resume').get(function() {
+  if (this.contenu.length <= 100) {
+    return this.contenu;
+  }
+  return this.contenu.substring(0, 100) + '...';
+});
+
