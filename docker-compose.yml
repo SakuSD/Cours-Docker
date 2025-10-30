@@ -1,33 +1,24 @@
-version: '3.8'
+version: '3.9'
 
 services:
   mongodb:
-    image: mongo:latest
-    container_name: mongodb
+    image: mongo:7
+    container_name: blog-mongodb
     restart: always
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: azerty
-      MONGO_INITDB_DATABASE: blog_mern
-    volumes:
-      - mongo-data:/data/db
-      - mongo-config:/data/configdb
 
-  app:
+  express-app:
     build: .
     container_name: express-app
     restart: always
     ports:
       - "3000:3000"
-    env_file:
-      - .env
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb://admin:azerty@mongodb:27017/blog_mern?authSource=admin
     depends_on:
       - mongodb
-    volumes:
-      - .:/usr/src/app
-
-volumes:
-  mongo-data:
-  mongo-config:
